@@ -9,14 +9,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-
 import by.traning.task8.dao.LanguageDAO;
-import by.traning.task8.dao.pull.ConnectionPool;
-import by.traning.task8.dao.pull.exception.ConnectionPoolException;
-import by.traning.task8.domains.Language;
-import by.traning.task8.domains.type.LanguageLevelType;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.dao.impl.constant.SQLField;
+import by.traning.task8.dao.pool.ConnectionPool;
+import by.traning.task8.dao.pool.exception.ConnectionPoolException;
+import by.traning.task8.domain.resume.Language;
+import by.traning.task8.domain.type.LanguageLevelType;
 
 public class LanguageDAOImpl implements LanguageDAO {
 	private static final Logger LOG = Logger.getLogger(ApplicantDAOImpl.class);
@@ -129,7 +129,7 @@ public class LanguageDAOImpl implements LanguageDAO {
 			ps.setInt(1, resumeId);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				language.add(CreateEntity(rs));
+				language.add(getLanguageFromResultSet(rs));
 			} else {
 				throw new DataDoesNotExistException("Company not found!");
 			}
@@ -150,12 +150,12 @@ public class LanguageDAOImpl implements LanguageDAO {
 		return language;
 	}
 
-	private Language CreateEntity(ResultSet set) throws SQLException {
+	private Language getLanguageFromResultSet(ResultSet set) throws SQLException {
 		Language language = new Language();
-		language.setIdLanguage(set.getInt(1));
-		language.setName(set.getString(2));
-		language.setRaiting(LanguageLevelType.valueOf(set.getString(3)));
-		language.setIdResume(set.getInt(4));
+		language.setIdLanguage(set.getInt(SQLField.LANGUAGE_ID));
+		language.setName(set.getString(SQLField.LANGUAGE_NAME));
+		language.setRaiting(LanguageLevelType.valueOf(set.getString(SQLField.LANGUAGE_RAITING)));
+		language.setIdResume(set.getInt(SQLField.LANGUAGE_ID_RESUME));
 		return language;
 
 	}

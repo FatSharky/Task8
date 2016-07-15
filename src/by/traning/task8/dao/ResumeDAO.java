@@ -2,9 +2,9 @@ package by.traning.task8.dao;
 
 import java.util.List;
 
-import by.traning.task8.domains.Resume;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.domain.resume.Resume;
 
 public interface ResumeDAO extends CommonDAO<Resume> {
 

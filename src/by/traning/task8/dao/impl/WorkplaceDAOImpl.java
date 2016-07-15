@@ -11,11 +11,12 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import by.traning.task8.dao.WorkPlaceDAO;
-import by.traning.task8.dao.pull.ConnectionPool;
-import by.traning.task8.dao.pull.exception.ConnectionPoolException;
-import by.traning.task8.domains.WorkPlace;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.dao.impl.constant.SQLField;
+import by.traning.task8.dao.pool.ConnectionPool;
+import by.traning.task8.dao.pool.exception.ConnectionPoolException;
+import by.traning.task8.domain.resume.WorkPlace;
 
 public class WorkplaceDAOImpl implements WorkPlaceDAO {
 	private static final Logger LOG = Logger.getLogger(ApplicantDAOImpl.class);
@@ -131,7 +132,7 @@ public class WorkplaceDAOImpl implements WorkPlaceDAO {
 			ps.setInt(1, resumeId);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				workPlace.add(CreateEntity(rs));
+				workPlace.add(getWorkPlaceFromResultSet(rs));
 			} else {
 				throw new DataDoesNotExistException("WorkPlace not found!");
 			}
@@ -152,14 +153,14 @@ public class WorkplaceDAOImpl implements WorkPlaceDAO {
 		return workPlace;
 	}
 
-	private WorkPlace CreateEntity(ResultSet set) throws SQLException {
+	private WorkPlace getWorkPlaceFromResultSet(ResultSet set) throws SQLException {
 		WorkPlace workPlace = new WorkPlace();
-		workPlace.setIdWorkPlace(set.getInt(1));
-		workPlace.setCompanyName(set.getString(2));
-		workPlace.setPosition(set.getString(3));
-		workPlace.setDateBegin(set.getDate(4));
-		workPlace.setDateEnd(set.getDate(5));
-		workPlace.setIdResume(set.getInt(6));
+		workPlace.setIdWorkPlace(set.getInt(SQLField.WORKPLACE_ID ));
+		workPlace.setCompanyName(set.getString(SQLField.WORKPLACE_COMPANY_NAME));
+		workPlace.setPosition(set.getString(SQLField.WORKPLACE_POSITION));
+		workPlace.setDateBegin(set.getDate(SQLField.WORKPLACE_DATE_BEGIN));
+		workPlace.setDateEnd(set.getDate(SQLField.WORKPLACE_DATE_END));
+		workPlace.setIdResume(set.getInt(SQLField.WORKPLACE_ID_RESUME));
 		return workPlace;
 
 	}

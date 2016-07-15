@@ -2,9 +2,9 @@ package by.traning.task8.dao;
 
 import java.util.List;
 
-import by.traning.task8.domains.Skill;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.domain.resume.Skill;
 
 public interface SkillDAO extends CommonDAO<Skill>{
 	void delete(int idSkill) throws DAOException;

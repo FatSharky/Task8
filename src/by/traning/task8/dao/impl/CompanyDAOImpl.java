@@ -8,12 +8,13 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import by.traning.task8.dao.CompanyDAO;
-import by.traning.task8.dao.pull.ConnectionPool;
-import by.traning.task8.dao.pull.exception.ConnectionPoolException;
-import by.traning.task8.domains.Company;
-import by.traning.task8.domains.role.Role;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.dao.impl.constant.SQLField;
+import by.traning.task8.dao.pool.ConnectionPool;
+import by.traning.task8.dao.pool.exception.ConnectionPoolException;
+import by.traning.task8.domain.Company;
+import by.traning.task8.domain.role.Role;
 
 public class CompanyDAOImpl implements CompanyDAO {
 	private static final Logger LOG = Logger.getLogger(ApplicantDAOImpl.class);
@@ -109,7 +110,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 			ps.setString(2, pass);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				company = CreateEntity(rs);
+				company = getCompanyFromResultSet(rs);
 			} else {
 				throw new DataDoesNotExistException("Company not found!");
 			}
@@ -146,7 +147,7 @@ public class CompanyDAOImpl implements CompanyDAO {
 			ps.setString(1, login);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				company = CreateEntity(rs);
+				company = getCompanyFromResultSet(rs);
 			} else {
 				throw new DataDoesNotExistException("Company not found!");
 			}
@@ -169,15 +170,15 @@ public class CompanyDAOImpl implements CompanyDAO {
 
 	}
 
-	private Company CreateEntity(ResultSet set) throws SQLException {
+	private Company getCompanyFromResultSet(ResultSet set) throws SQLException {
 		Company company = new Company();
-		company.setCompanyLogin(set.getString(1));
-		company.setPassword(set.getString(2));
-		company.setLogo(set.getBytes(3));
-		company.setName(set.getString(4));
-		company.setWebSite(set.getString(5));
-		company.setCity(set.getString(6));
-		company.setRole(Role.valueOf(set.getString(7)));
+		company.setCompanyLogin(set.getString(SQLField.COMPANY_LOGIN));
+		company.setPassword(set.getString(SQLField.COMPANY_PASSWORD));
+		company.setLogo(set.getBytes(SQLField.COMPANY_LOGO));
+		company.setName(set.getString(SQLField.COMPANY_NAME));
+		company.setWebSite(set.getString(SQLField.COMPANY_SITE));
+		company.setCity(set.getString(SQLField.COMPANY_CITY));
+		company.setRole(Role.valueOf(set.getString(SQLField.COMPANY_ROLE)));
 		return company;
 
 	}

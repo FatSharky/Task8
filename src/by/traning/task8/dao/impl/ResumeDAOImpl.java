@@ -10,11 +10,12 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import by.traning.task8.dao.ResumeDAO;
-import by.traning.task8.dao.pull.ConnectionPool;
-import by.traning.task8.dao.pull.exception.ConnectionPoolException;
-import by.traning.task8.domains.Resume;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.dao.impl.constant.SQLField;
+import by.traning.task8.dao.pool.ConnectionPool;
+import by.traning.task8.dao.pool.exception.ConnectionPoolException;
+import by.traning.task8.domain.resume.Resume;
 
 public class ResumeDAOImpl implements ResumeDAO {
 	private static final Logger LOG = Logger.getLogger(ApplicantDAOImpl.class);
@@ -125,7 +126,7 @@ public class ResumeDAOImpl implements ResumeDAO {
 			ps.setString(1, email);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				resume = CreateEntity(rs);
+				resume = getResumeFromResultSet(rs);
 			} else {
 				throw new DataDoesNotExistException("Resume not found!");
 			}
@@ -161,7 +162,7 @@ public class ResumeDAOImpl implements ResumeDAO {
 			ps.setString(1, email);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				resume.add(CreateEntity(rs));
+				resume.add(getResumeFromResultSet(rs));
 			} else {
 				throw new DataDoesNotExistException("Company not found!");
 			}
@@ -211,11 +212,11 @@ public class ResumeDAOImpl implements ResumeDAO {
 		}
 	}
 
-	private Resume CreateEntity(ResultSet set) throws SQLException {
+	private Resume getResumeFromResultSet(ResultSet set) throws SQLException {
 		Resume resume = new Resume();
-		resume.setIdResume(set.getInt(1));
-		resume.setName(set.getString(2));
-		resume.setEmail(set.getString(3));
+		resume.setIdResume(set.getInt(SQLField.RESUME_ID));
+		resume.setName(set.getString(SQLField.RESUME_NAME));
+		resume.setEmail(set.getString(SQLField.RESUME_APPLICANT_EMAIL));
 		return resume;
 
 	}

@@ -10,12 +10,13 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import by.traning.task8.dao.SkillDAO;
-import by.traning.task8.dao.pull.ConnectionPool;
-import by.traning.task8.dao.pull.exception.ConnectionPoolException;
-import by.traning.task8.domains.Skill;
-import by.traning.task8.domains.type.SkillType;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.dao.impl.constant.SQLField;
+import by.traning.task8.dao.pool.ConnectionPool;
+import by.traning.task8.dao.pool.exception.ConnectionPoolException;
+import by.traning.task8.domain.resume.Skill;
+import by.traning.task8.domain.type.SkillType;
 
 public class SkillDAOImpl implements SkillDAO {
 	private static final Logger LOG = Logger.getLogger(ApplicantDAOImpl.class);
@@ -130,7 +131,7 @@ public class SkillDAOImpl implements SkillDAO {
 			ps.setInt(1, resumeId);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				skill.add(CreateEntity(rs));
+				skill.add(getSkillFromResultSet(rs));
 			} else {
 				throw new DataDoesNotExistException("Company not found!");
 			}
@@ -151,12 +152,12 @@ public class SkillDAOImpl implements SkillDAO {
 		return skill;
 	}
 
-	private Skill CreateEntity(ResultSet set) throws SQLException {
+	private Skill getSkillFromResultSet(ResultSet set) throws SQLException {
 		Skill skill = new Skill();
-		skill.setIdSkill(set.getInt(1));
-		skill.setName(set.getString(2));
-		skill.setRaiting(SkillType.valueOf(set.getString(3)));
-		skill.setIdResume(set.getInt(4));
+		skill.setIdSkill(set.getInt(SQLField.SKILL_ID));
+		skill.setName(set.getString(SQLField.SKILL_NAME));
+		skill.setRaiting(SkillType.valueOf(set.getString(SQLField.SKILL_RAITING)));
+		skill.setIdResume(set.getInt(SQLField.SKILL_ID_RESUME));
 		return skill;
 
 	}

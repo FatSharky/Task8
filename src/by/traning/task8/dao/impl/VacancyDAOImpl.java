@@ -12,13 +12,13 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import by.traning.task8.dao.VacancyDAO;
-import by.traning.task8.dao.pull.ConnectionPool;
-import by.traning.task8.dao.pull.exception.ConnectionPoolException;
-
-import by.traning.task8.domains.Vacancy;
-import by.traning.task8.domains.type.CurrencyType;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.dao.impl.constant.SQLField;
+import by.traning.task8.dao.pool.ConnectionPool;
+import by.traning.task8.dao.pool.exception.ConnectionPoolException;
+import by.traning.task8.domain.Vacancy;
+import by.traning.task8.domain.type.CurrencyType;
 
 public class VacancyDAOImpl implements VacancyDAO {
 	private static final Logger LOG = Logger.getLogger(ApplicantDAOImpl.class);
@@ -148,8 +148,8 @@ public class VacancyDAOImpl implements VacancyDAO {
 	}
 
 	@Override
-	public Vacancy findVacancyByComany(String companyLogin) throws DAOException, DataDoesNotExistException {
-		Vacancy vacancy = new Vacancy();
+	public List<Vacancy> findVacancyByComany(String companyLogin) throws DAOException, DataDoesNotExistException {
+		List<Vacancy> vacancy = new ArrayList<Vacancy>();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -161,7 +161,7 @@ public class VacancyDAOImpl implements VacancyDAO {
 			ps.setString(1, companyLogin);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				vacancy = CreateEntity(rs);
+				vacancy.add(getVacancyFromResultSet(rs));
 			} else {
 				throw new DataDoesNotExistException("Vacancy not found!");
 			}
@@ -184,8 +184,8 @@ public class VacancyDAOImpl implements VacancyDAO {
 	}
 
 	@Override
-	public Vacancy findVacancyByHr(String hrEmail) throws DAOException, DataDoesNotExistException {
-		Vacancy vacancy = new Vacancy();
+	public List<Vacancy> findVacancyByHr(String hrEmail) throws DAOException, DataDoesNotExistException {
+		List<Vacancy> vacancy = new ArrayList<Vacancy>();
 		Connection conn = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
@@ -197,7 +197,7 @@ public class VacancyDAOImpl implements VacancyDAO {
 			ps.setString(1, hrEmail);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				vacancy = CreateEntity(rs);
+				vacancy.add(getVacancyFromResultSet(rs));
 			} else {
 				throw new DataDoesNotExistException("Vacancy not found!");
 			}
@@ -233,7 +233,7 @@ public class VacancyDAOImpl implements VacancyDAO {
 			ps.setInt(1, idVacancy);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				vacancy = CreateEntity(rs);
+				vacancy = getVacancyFromResultSet(rs);
 			} else {
 				throw new DataDoesNotExistException("Vacancy not found!");
 			}
@@ -268,7 +268,7 @@ public class VacancyDAOImpl implements VacancyDAO {
 			ps = conn.prepareStatement(SQL_FIND_ALL_VACANCY);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				vacancy.add(CreateEntity(rs));
+				vacancy.add(getVacancyFromResultSet(rs));
 			} else {
 				throw new DataDoesNotExistException("Vacancy not found!");
 			}
@@ -303,7 +303,7 @@ public class VacancyDAOImpl implements VacancyDAO {
 			ps.setString(1, name);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				vacancy.add(CreateEntity(rs));
+				vacancy.add(getVacancyFromResultSet(rs));
 			} else {
 				throw new DataDoesNotExistException("Vacancy not found!");
 			}
@@ -324,18 +324,18 @@ public class VacancyDAOImpl implements VacancyDAO {
 		return vacancy;
 	}
 
-	private Vacancy CreateEntity(ResultSet set) throws SQLException {
+	private Vacancy getVacancyFromResultSet(ResultSet set) throws SQLException {
 		Vacancy vacancy = new Vacancy();
-		vacancy.setIdVacancy(set.getInt(1));
-		vacancy.setName(set.getString(2));
-		vacancy.setSalary(set.getInt(3));
-		vacancy.setCurrency(CurrencyType.valueOf(set.getString(4)));
-		vacancy.setPublishDate(set.getDate(5));
-		vacancy.setDescription(set.getString(6));
-		vacancy.setRequirement(set.getString(7));
-		vacancy.setConditions(set.getString(8));
-		vacancy.setEmployment_type(set.getString(9));
-		vacancy.setEmail(set.getString(10));
+		vacancy.setIdVacancy(set.getInt(SQLField.VACANCY_ID));
+		vacancy.setName(set.getString(SQLField.VACANCY_NAME));
+		vacancy.setSalary(set.getInt(SQLField.VACANCY_SALARY));
+		vacancy.setCurrency(CurrencyType.valueOf(set.getString(SQLField.VACANCY_CURRENCY)));
+		vacancy.setPublishDate(set.getDate(SQLField.VACANCY_PUBLISH_DATE));
+		vacancy.setDescription(set.getString(SQLField.VACANCY_DESCRIPTION));
+		vacancy.setRequirement(set.getString(SQLField.VACANCY_REQUIREMENTS));
+		vacancy.setConditions(set.getString(SQLField.VACANCY_CONDITIONS));
+		vacancy.setEmployment_type(set.getString(SQLField.VACANCY_EMPLOYMENT_TYPE));
+		vacancy.setEmail(set.getString(SQLField.VACANCY_HR_EMAIL));
 		return vacancy;
 
 	}

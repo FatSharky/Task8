@@ -5,18 +5,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 
 import by.traning.task8.dao.EducationDAO;
-import by.traning.task8.dao.pull.ConnectionPool;
-import by.traning.task8.dao.pull.exception.ConnectionPoolException;
-import by.traning.task8.domains.Education;
-import by.traning.task8.domains.type.EducationType;
-import by.traning.task8.domains.type.PostgraduateType;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.dao.impl.constant.SQLField;
+import by.traning.task8.dao.pool.ConnectionPool;
+import by.traning.task8.dao.pool.exception.ConnectionPoolException;
+import by.traning.task8.domain.resume.Education;
+import by.traning.task8.domain.type.EducationType;
+import by.traning.task8.domain.type.PostgraduateType;
 
 public class EducationDAOImpl implements EducationDAO {
 	private static final Logger LOG = Logger.getLogger(ApplicantDAOImpl.class);
@@ -42,7 +44,7 @@ public class EducationDAOImpl implements EducationDAO {
 			ps.setString(3, entity.getDepartmnet());
 			ps.setString(4, entity.getEducation().getEducationType());
 			ps.setInt(5, entity.getCourse());
-			ps.setDate(6, entity.getGrandYear());
+			ps.setDate(6, new java.sql.Date(entity.getGrandYear().getTime()));
 			ps.setString(7, entity.getPostgraduate().getPostgraduateType());
 			ps.executeUpdate();
 			return true;
@@ -78,7 +80,11 @@ public class EducationDAOImpl implements EducationDAO {
 			ps.setString(4, entity.getDepartmnet());
 			ps.setString(5, entity.getEducation().getEducationType());
 			ps.setInt(6, entity.getCourse());
-			ps.setDate(7, entity.getGrandYear());
+			if (entity.getGrandYear() != null) {
+				ps.setDate(7, new java.sql.Date(entity.getGrandYear().getTime()));
+			} else {
+				ps.setDate(7, new java.sql.Date(Calendar.getInstance().getTimeInMillis()));
+			}
 			ps.setString(8, entity.getPostgraduate().getPostgraduateType());
 			ps.setInt(9, entity.getIdEducation());
 			ps.executeUpdate();
@@ -141,7 +147,7 @@ public class EducationDAOImpl implements EducationDAO {
 			ps.setInt(1, resumeId);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				education.add(CreateEntity(rs));
+				education.add(getEducationFromResultSet(rs));
 			} else {
 				throw new DataDoesNotExistException("Company not found!");
 			}
@@ -164,16 +170,17 @@ public class EducationDAOImpl implements EducationDAO {
 
 	}
 
-	private Education CreateEntity(ResultSet set) throws SQLException {
+	private Education getEducationFromResultSet(ResultSet set) throws SQLException {
 		Education education = new Education();
-		education.setIdEducation(set.getInt(1));
-		education.setInstitution(set.getString(2));
-		education.setDepartmnet(set.getString(3));
-		education.setEducation(EducationType.valueOf(set.getString(4)));
-		education.setCourse(set.getInt(5));
-		education.setGrandYear(set.getDate(6));
-		education.setPostgraduate(PostgraduateType.valueOf(set.getString(7)));
-		education.setIdResume(set.getInt(8));
+		education.setIdEducation(set.getInt(SQLField.EDUCATION_ID));
+		education.setInstitution(set.getString(SQLField.EDUCATION_INSTITUTION));
+		education.setFaculty(set.getString(SQLField.EDUCATION_FACULTY));
+		education.setDepartmnet(set.getString(SQLField.EDUCATION_DEPARTMENT));
+		education.setEducation(EducationType.valueOf(set.getString(SQLField.EDUCATION_EDUCATION)));
+		education.setCourse(set.getInt(SQLField.EDUCATION_COURSE));
+		education.setGrandYear(set.getDate(SQLField.EDUCATION_GRAND_YEAR));
+		education.setPostgraduate(PostgraduateType.valueOf(set.getString(SQLField.EDUCATION_POSTGRADUATE)));
+		education.setIdResume(set.getInt(SQLField.EDUCATION_ID_RESUME));
 		return education;
 
 	}

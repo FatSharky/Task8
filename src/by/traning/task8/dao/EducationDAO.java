@@ -2,9 +2,9 @@ package by.traning.task8.dao;
 
 import java.util.List;
 
-import by.traning.task8.domains.Education;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.domain.resume.Education;
 
 public interface EducationDAO extends CommonDAO<Education> {
 	void delete(int idEducation) throws DAOException;

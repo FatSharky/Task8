@@ -9,14 +9,15 @@ import java.sql.SQLException;
 import org.apache.log4j.Logger;
 
 import by.traning.task8.dao.ApplicantDAO;
-import by.traning.task8.dao.pull.ConnectionPool;
-import by.traning.task8.dao.pull.exception.ConnectionPoolException;
-import by.traning.task8.domains.Applicant;
-import by.traning.task8.domains.role.Role;
-import by.traning.task8.domains.type.ContactPhoneType;
-import by.traning.task8.domains.type.MilitaryType;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.dao.impl.constant.SQLField;
+import by.traning.task8.dao.pool.ConnectionPool;
+import by.traning.task8.dao.pool.exception.ConnectionPoolException;
+import by.traning.task8.domain.Applicant;
+import by.traning.task8.domain.role.Role;
+import by.traning.task8.domain.type.ContactPhoneType;
+import by.traning.task8.domain.type.MilitaryType;
 
 public class ApplicantDAOImpl implements ApplicantDAO {
 
@@ -128,7 +129,7 @@ public class ApplicantDAOImpl implements ApplicantDAO {
 			ps.setString(2, password);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				applicant = CreateEntity(rs);
+				applicant = getApplicantFromresultSet(rs);
 			} else {
 				throw new DataDoesNotExistException("Applicant not found!");
 			}
@@ -165,7 +166,7 @@ public class ApplicantDAOImpl implements ApplicantDAO {
 			ps.setString(1, email);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				applicant = CreateEntity(rs);
+				applicant = getApplicantFromresultSet(rs);
 			} else {
 				throw new DataDoesNotExistException("Applicant not found!");
 			}
@@ -188,22 +189,22 @@ public class ApplicantDAOImpl implements ApplicantDAO {
 
 	}
 
-	private Applicant CreateEntity(ResultSet set) throws SQLException {
+	private Applicant getApplicantFromresultSet(ResultSet set) throws SQLException {
 		Applicant applicant = new Applicant();
-		applicant.setEmail(set.getString(1));
-		applicant.setPassword(set.getString(2));
-		applicant.setSurname(set.getString(3));
-		applicant.setName(set.getString(4));
-		applicant.setSecondName(set.getString(5));
-		applicant.setPhoto(set.getBytes(6));
-		applicant.setWorkPhone(set.getInt(7));
-		applicant.setHomePhone(set.getInt(8));
-		applicant.setMobPhone(set.getInt(9));
-		applicant.setContactPhone(ContactPhoneType.valueOf(set.getString(10)));
-		applicant.setSkype(set.getString(11));
-		applicant.setBirthDate(set.getDate(12));
-		applicant.setMilitary(MilitaryType.valueOf(set.getString(13)));
-		applicant.setRole(Role.valueOf(set.getString(14)));
+		applicant.setEmail(set.getString(SQLField.APPLICANT_EMAIL));
+		applicant.setPassword(set.getString(SQLField.APPLICANT_PASSWORD));
+		applicant.setSurname(set.getString(SQLField.APPLICANT_SURNAME));
+		applicant.setName(set.getString(SQLField.APPLICANT_NAME));
+		applicant.setSecondName(set.getString(SQLField.APPLICANT_SECONDNAME));
+		applicant.setPhoto(set.getBytes(SQLField.APPLICANT_PHOTO));
+		applicant.setWorkPhone(set.getInt(SQLField.APPLICANT_WORK_PHONE));
+		applicant.setHomePhone(set.getInt(SQLField.APPLICANT_HOME_PHONE));
+		applicant.setMobPhone(set.getInt(SQLField.APPLICANT_MOB_PHONE));
+		applicant.setContactPhone(ContactPhoneType.valueOf(set.getString(SQLField.APPLICANT_CONTACT_PHONE)));
+		applicant.setSkype(set.getString(SQLField.APPLICANT_SKYPE));
+		applicant.setBirthDate(set.getDate(SQLField.APPLICANT_BIRTH_DATE));
+		applicant.setMilitary(MilitaryType.valueOf(set.getString(SQLField.APPLICANT_MILLATRY)));
+		applicant.setRole(Role.valueOf(set.getString(SQLField.APPLICANT_ROLE)));
 		return applicant;
 
 	}

@@ -9,14 +9,14 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 
-
 import by.traning.task8.dao.InterviewMarkDAO;
-import by.traning.task8.dao.pull.ConnectionPool;
-import by.traning.task8.dao.pull.exception.ConnectionPoolException;
-import by.traning.task8.domains.InterviewMark;
-import by.traning.task8.domains.type.SkillType;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.dao.impl.constant.SQLField;
+import by.traning.task8.dao.pool.ConnectionPool;
+import by.traning.task8.dao.pool.exception.ConnectionPoolException;
+import by.traning.task8.domain.InterviewMark;
+import by.traning.task8.domain.type.SkillType;
 
 public class InterviewMarkDAOImpl implements InterviewMarkDAO {
 	private static final Logger LOG = Logger.getLogger(ApplicantDAOImpl.class);
@@ -132,7 +132,7 @@ public class InterviewMarkDAOImpl implements InterviewMarkDAO {
 			ps.setInt(1, interviewId);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				skill.add(CreateEntity(rs));
+				skill.add(getMarkFromResultSet(rs));
 			} else {
 				throw new DataDoesNotExistException("Company not found!");
 			}
@@ -153,12 +153,12 @@ public class InterviewMarkDAOImpl implements InterviewMarkDAO {
 		return skill;
 	}
 
-	private InterviewMark CreateEntity(ResultSet set) throws SQLException {
+	private InterviewMark getMarkFromResultSet(ResultSet set) throws SQLException {
 		InterviewMark skill = new InterviewMark();
-		skill.setIdMark(set.getInt(1));
-		skill.setSkill(set.getString(2));
-		skill.setMark(SkillType.valueOf(set.getString(3)));
-		skill.setIdInterview(set.getInt(4));
+		skill.setIdMark(set.getInt(SQLField.IMARK_ID));
+		skill.setSkill(set.getString(SQLField.IMARK_SKILL));
+		skill.setMark(SkillType.valueOf(set.getString(SQLField.IMARK_MARK)));
+		skill.setIdInterview(set.getInt(SQLField.IMARK_ID_INERVIEW));
 		return skill;
 
 	}

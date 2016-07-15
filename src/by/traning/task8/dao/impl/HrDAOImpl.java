@@ -10,12 +10,13 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import by.traning.task8.dao.HrDAO;
-import by.traning.task8.dao.pull.ConnectionPool;
-import by.traning.task8.dao.pull.exception.ConnectionPoolException;
-import by.traning.task8.domains.Hr;
-import by.traning.task8.domains.role.Role;
-import by.traning.task8.exception.DAOException;
-import by.traning.task8.exception.DataDoesNotExistException;
+import by.traning.task8.dao.exception.DAOException;
+import by.traning.task8.dao.exception.DataDoesNotExistException;
+import by.traning.task8.dao.impl.constant.SQLField;
+import by.traning.task8.dao.pool.ConnectionPool;
+import by.traning.task8.dao.pool.exception.ConnectionPoolException;
+import by.traning.task8.domain.Hr;
+import by.traning.task8.domain.role.Role;
 
 public class HrDAOImpl implements HrDAO {
 	private static final Logger LOG = Logger.getLogger(ApplicantDAOImpl.class);
@@ -142,7 +143,7 @@ public class HrDAOImpl implements HrDAO {
 			ps.setString(2, pass);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				hr = CreateEntity(rs);
+				hr = getHrFromResultSet(rs);
 			} else {
 				throw new DataDoesNotExistException("Applicant not found!");
 			}
@@ -179,7 +180,7 @@ public class HrDAOImpl implements HrDAO {
 			ps.setString(1, email);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				hr = CreateEntity(rs);
+				hr = getHrFromResultSet(rs);
 			} else {
 				throw new DataDoesNotExistException("Applicant not found!");
 			}
@@ -216,7 +217,7 @@ public class HrDAOImpl implements HrDAO {
 			ps.setString(1, loginCompany);
 			rs = ps.executeQuery();
 			if (rs.next()) {
-				hr.add(CreateEntity(rs));
+				hr.add(getHrFromResultSet(rs));
 			} else {
 				throw new DataDoesNotExistException("Company not found!");
 			}
@@ -239,17 +240,17 @@ public class HrDAOImpl implements HrDAO {
 
 	}
 
-	private Hr CreateEntity(ResultSet set) throws SQLException {
+	private Hr getHrFromResultSet(ResultSet set) throws SQLException {
 		Hr hr = new Hr();
-		hr.setEmail(set.getString(1));
-		hr.setPassword(set.getString(2));
-		hr.setPhoto(set.getBytes(3));
-		hr.setSurname(set.getString(4));
-		hr.setName(set.getString(5));
-		hr.setSecondName(set.getString(6));
-		hr.setPhone(set.getInt(7));
-		hr.setCompanyLogin(set.getString(8));
-		hr.setRole(Role.valueOf(set.getString(9)));
+		hr.setEmail(set.getString(SQLField.HR_EMAIL));
+		hr.setPassword(set.getString(SQLField.HR_PASSWORD));
+		hr.setPhoto(set.getBytes(SQLField.HR_PHOTO));
+		hr.setSurname(set.getString(SQLField.HR_SURNAME));
+		hr.setName(set.getString(SQLField.HR_NAME));
+		hr.setSecondName(set.getString(SQLField.HR_SECOND_NAME));
+		hr.setPhone(set.getInt(SQLField.HR_PHONE));
+		hr.setCompanyLogin(set.getString(SQLField.HR_COMPANY_LOGIN));
+		hr.setRole(Role.valueOf(set.getString(SQLField.HR_ROLE)));
 		return hr;
 
 	}

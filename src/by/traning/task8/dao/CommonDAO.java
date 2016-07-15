@@ -1,7 +1,7 @@
 package by.traning.task8.dao;
 
 
-import by.traning.task8.exception.DAOException;
+import by.traning.task8.dao.exception.DAOException;
 
 public interface CommonDAO<T> {
 	
