@@ -40,17 +40,14 @@ public class ResumeDAOImpl implements ResumeDAO {
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			LOG.error("Faild create Resume: ", e);
 			throw new DAOException("Faild create Resume: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 	}
@@ -69,17 +66,14 @@ public class ResumeDAOImpl implements ResumeDAO {
 			ps.setInt(3, entity.getIdResume());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			LOG.error("Faild update Resume: ", e);
 			throw new DAOException("Faild update Resume: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 	}
@@ -96,17 +90,14 @@ public class ResumeDAOImpl implements ResumeDAO {
 			ps.setInt(1, idResume);
 			ps.executeQuery();
 		} catch (SQLException e) {
-			LOG.error("Faild delete Resume: ", e);
 			throw new DAOException("Faild delete Resume: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -132,16 +123,13 @@ public class ResumeDAOImpl implements ResumeDAO {
 			}
 		} catch (SQLException e) {
 			LOG.error("Faild to find Applicant: ", e);
-			throw new DAOException("Faild ifind Applicant: ", e);
 		} catch (ConnectionPoolException e) {
 			LOG.error("Connection pool problems!", e);
-			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -167,17 +155,14 @@ public class ResumeDAOImpl implements ResumeDAO {
 				throw new DataDoesNotExistException("Company not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Languages: ", e);
 			throw new DAOException("Faild to find Languages: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 		return resume;
@@ -197,17 +182,14 @@ public class ResumeDAOImpl implements ResumeDAO {
 			ps.executeUpdate();
 
 		} catch (SQLException e) {
-			LOG.error("Faild Aplay for a job: ", e);
 			throw new DAOException("Faild aplay for a job: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 	}

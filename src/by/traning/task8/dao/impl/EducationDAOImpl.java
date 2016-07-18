@@ -49,17 +49,14 @@ public class EducationDAOImpl implements EducationDAO {
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			LOG.error("Faild create Education: ", e);
 			throw new DAOException("Faild create Education: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -89,17 +86,14 @@ public class EducationDAOImpl implements EducationDAO {
 			ps.setInt(9, entity.getIdEducation());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			LOG.error("Faild update Education: ", e);
 			throw new DAOException("Faild update Education: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -117,17 +111,14 @@ public class EducationDAOImpl implements EducationDAO {
 			ps.setInt(1, idEducation);
 			ps.executeQuery();
 		} catch (SQLException e) {
-			LOG.error("Faild delete Education: ", e);
 			throw new DAOException("Faild delete Education: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -152,17 +143,14 @@ public class EducationDAOImpl implements EducationDAO {
 				throw new DataDoesNotExistException("Company not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Company: ", e);
 			throw new DAOException("Faild to find Company: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 

@@ -51,17 +51,14 @@ public class HrDAOImpl implements HrDAO {
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			LOG.error("Faild create Hr: ", e);
 			throw new DAOException("Faild createHr: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 	}
@@ -85,17 +82,14 @@ public class HrDAOImpl implements HrDAO {
 			ps.setString(8, entity.getEmail());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			LOG.error("Faild to update Hr: ", e);
 			throw new DAOException("Faild to update Hr: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 	}
@@ -112,17 +106,14 @@ public class HrDAOImpl implements HrDAO {
 			ps.setString(1, email);
 			ps.executeQuery();
 		} catch (SQLException e) {
-			LOG.error("Faild delete Hr: ", e);
 			throw new DAOException("Faild delete Hr: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -148,17 +139,14 @@ public class HrDAOImpl implements HrDAO {
 				throw new DataDoesNotExistException("Applicant not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Applicant: ", e);
 			throw new DAOException("Faild ifind Applicant: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -185,17 +173,14 @@ public class HrDAOImpl implements HrDAO {
 				throw new DataDoesNotExistException("Applicant not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Applicant: ", e);
 			throw new DAOException("Faild ifind Applicant: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -222,17 +207,14 @@ public class HrDAOImpl implements HrDAO {
 				throw new DataDoesNotExistException("Company not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Company: ", e);
 			throw new DAOException("Faild to find Company: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 

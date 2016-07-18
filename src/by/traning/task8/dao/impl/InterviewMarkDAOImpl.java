@@ -43,17 +43,14 @@ public class InterviewMarkDAOImpl implements InterviewMarkDAO {
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			LOG.error("Faild create Interview mark: ", e);
 			throw new DAOException("Faild create Interview mark: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 	}
@@ -74,17 +71,14 @@ public class InterviewMarkDAOImpl implements InterviewMarkDAO {
 			ps.setInt(3, entity.getIdMark());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			LOG.error("Faild update Interview mark: ", e);
 			throw new DAOException("Faild update Interview mark: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -102,17 +96,14 @@ public class InterviewMarkDAOImpl implements InterviewMarkDAO {
 			ps.setInt(1, idMark);
 			ps.executeQuery();
 		} catch (SQLException e) {
-			LOG.error("Faild delete mark: ", e);
 			throw new DAOException("Faild delete mark: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -137,17 +128,14 @@ public class InterviewMarkDAOImpl implements InterviewMarkDAO {
 				throw new DataDoesNotExistException("Company not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Languages: ", e);
 			throw new DAOException("Faild to find Languages: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 		return skill;

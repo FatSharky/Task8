@@ -23,15 +23,11 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.concurrent.Executor;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
-
 import by.traning.task8.dao.pool.exception.ConnectionPoolException;
 
 public class ConnectionPool {
 
 	private static ConnectionPool connectionPool = null;
-	private static final Logger logger = Logger.getLogger(ConnectionPool.class);
 
 	private static final int MINIMAL_CONNECTION_COUNT = 5;
 
@@ -150,6 +146,15 @@ public class ConnectionPool {
 		} catch (SQLException e) {
 			throw new ConnectionPoolException("Statement isn't closed", e);
 		}
+	}
+
+	public void closeConnection(Connection connection) throws ConnectionPoolException {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			throw new ConnectionPoolException("Connection isn't return to the pool", e);
+		}
+
 	}
 
 	private class PooledConnection implements Connection {
@@ -453,12 +458,4 @@ public class ConnectionPool {
 		}
 	}
 
-	public void closeConnection(Connection conn) {
-		try {
-			conn.close();
-		} catch (SQLException e) {
-			logger.log(Level.ERROR, "Connection isn't return to the pool");
-		}
-
-	}
 }

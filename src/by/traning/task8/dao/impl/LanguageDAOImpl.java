@@ -42,17 +42,14 @@ public class LanguageDAOImpl implements LanguageDAO {
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			LOG.error("Faild create Language: ", e);
 			throw new DAOException("Faild create Language: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 	}
@@ -73,17 +70,14 @@ public class LanguageDAOImpl implements LanguageDAO {
 			ps.setInt(3, entity.getIdLanguage());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			LOG.error("Faild update Language: ", e);
 			throw new DAOException("Faild update Language: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 	}
@@ -100,17 +94,14 @@ public class LanguageDAOImpl implements LanguageDAO {
 			ps.setInt(1, idLanguage);
 			ps.executeQuery();
 		} catch (SQLException e) {
-			LOG.error("Faild delete Language: ", e);
 			throw new DAOException("Faild delete Language: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 	}
@@ -134,17 +125,14 @@ public class LanguageDAOImpl implements LanguageDAO {
 				throw new DataDoesNotExistException("Company not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Languages: ", e);
 			throw new DAOException("Faild to find Languages: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 		return language;

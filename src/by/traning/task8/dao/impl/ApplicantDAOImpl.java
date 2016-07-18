@@ -56,17 +56,14 @@ public class ApplicantDAOImpl implements ApplicantDAO {
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			LOG.error("Faild insert into Applicant: ", e);
 			throw new DAOException("Faild insert into Applicant: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -97,17 +94,15 @@ public class ApplicantDAOImpl implements ApplicantDAO {
 			ps.setString(14, entity.getEmail());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			LOG.error("Faild to update Applicant: ", e);
 			throw new DAOException("Faild insert into Applicant: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
+
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -134,17 +129,17 @@ public class ApplicantDAOImpl implements ApplicantDAO {
 				throw new DataDoesNotExistException("Applicant not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Applicant: ", e);
+
 			throw new DAOException("Faild ifind Applicant: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
+
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
+
 			}
 		}
 
@@ -171,17 +166,14 @@ public class ApplicantDAOImpl implements ApplicantDAO {
 				throw new DataDoesNotExistException("Applicant not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Applicant: ", e);
 			throw new DAOException("Faild ifind Applicant: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 

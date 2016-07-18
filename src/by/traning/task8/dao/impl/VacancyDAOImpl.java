@@ -63,17 +63,14 @@ public class VacancyDAOImpl implements VacancyDAO {
 			ps.executeUpdate();
 			return true;
 		} catch (SQLException e) {
-			LOG.error("Faild create Vacancy: ", e);
 			throw new DAOException("Faild create Vacancy: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -104,17 +101,14 @@ public class VacancyDAOImpl implements VacancyDAO {
 			ps.setInt(10, entity.getIdVacancy());
 			ps.executeUpdate();
 		} catch (SQLException e) {
-			LOG.error("Faild create Vacancy: ", e);
 			throw new DAOException("Faild create Vacancy: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 	}
@@ -131,17 +125,14 @@ public class VacancyDAOImpl implements VacancyDAO {
 			ps.setInt(1, idVacancy);
 			ps.executeQuery();
 		} catch (SQLException e) {
-			LOG.error("Faild delete Vacancy: ", e);
 			throw new DAOException("Faild delete Vacancy: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -166,17 +157,14 @@ public class VacancyDAOImpl implements VacancyDAO {
 				throw new DataDoesNotExistException("Vacancy not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Vacancy: ", e);
 			throw new DAOException("Faild ifind Applicant: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -202,17 +190,14 @@ public class VacancyDAOImpl implements VacancyDAO {
 				throw new DataDoesNotExistException("Vacancy not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Vacancy: ", e);
 			throw new DAOException("Faild to find Vacancy: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -238,17 +223,14 @@ public class VacancyDAOImpl implements VacancyDAO {
 				throw new DataDoesNotExistException("Vacancy not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Vacancy: ", e);
 			throw new DAOException("Faild to find Vacancy: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 
@@ -273,17 +255,14 @@ public class VacancyDAOImpl implements VacancyDAO {
 				throw new DataDoesNotExistException("Vacancy not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Vacancy: ", e);
 			throw new DAOException("Faild to find Vacancy: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 		return vacancy;
@@ -308,17 +287,14 @@ public class VacancyDAOImpl implements VacancyDAO {
 				throw new DataDoesNotExistException("Vacancy not found!");
 			}
 		} catch (SQLException e) {
-			LOG.error("Faild to find Vacancy: ", e);
 			throw new DAOException("Faild to find Vacancy: ", e);
 		} catch (ConnectionPoolException e) {
-			LOG.error("Connection pool problems!", e);
 			throw new DAOException("Connection pool problems!", e);
 		} finally {
 			try {
 				ConnectionPool.getInstance().closeConnection(conn, ps, rs);
 			} catch (ConnectionPoolException e) {
 				LOG.error("Faild to close connection", e);
-				throw new DAOException("Faild to close connection", e);
 			}
 		}
 		return vacancy;
